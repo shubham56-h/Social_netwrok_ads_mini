@@ -26,7 +26,7 @@ imports = code('a2', [
     'from sklearn.linear_model import LogisticRegression\n',
     'from sklearn.neighbors import KNeighborsClassifier\n',
     'from sklearn.svm import SVC\n',
-    'from sklearn.metrics import accuracy_score, confusion_matrix, classification_report\n',
+    'from sklearn.metrics import accuracy_score, confusion_matrix, classification_report, roc_auc_score\n',
     'import joblib, os\n',
     '%matplotlib inline\n',
     "os.makedirs('static', exist_ok=True)"
@@ -146,40 +146,21 @@ eda1_dist_sal = code('c6b', [
 ])
 
 eda1_box_age = code('c7a', [
-    'fig, ax = plt.subplots(figsize=(6, 5))\n',
-    "sns.boxplot(y=df['Age'].dropna(), ax=ax, color='#AED6F1',\n",
-    "            medianprops=dict(color='red', linewidth=2),\n",
-    "            whiskerprops=dict(linewidth=1.5),\n",
-    "            capprops=dict(linewidth=2),\n",
-    "            flierprops=dict(marker='o', color='tomato', markersize=4, alpha=0.6))\n",
-    "# Annotate Q1, median, Q3\n",
-    "q1, med, q3 = df['Age'].dropna().quantile([0.25, 0.5, 0.75])\n",
-    "mean_val = df['Age'].dropna().mean()\n",
-    "ax.axhline(mean_val, color='blue', linestyle='--', linewidth=1.2, label=f'Mean={mean_val:.1f}')\n",
-    "for val, lbl in [(q1,'Q1'),(med,'Median'),(q3,'Q3')]:\n",
-    "    ax.text(0.52, val, f'{lbl}={val:.1f}', va='center', fontsize=9, color='darkgreen')\n",
-    "ax.legend(fontsize=9)\n",
-    "ax.set_title('Raw Age Boxplot')\n",
-    "ax.yaxis.grid(True, linestyle='--', alpha=0.7)\n",
+    'plt.figure(figsize=(6, 4))\n',
+    "sns.boxplot(y=df['Age'].dropna(), color='lightblue',\n",
+    "            meanprops=dict(marker='D', markerfacecolor='red', markersize=6),\n",
+    "            showmeans=True)\n",
+    "plt.title('Raw Age Boxplot')\n",
     "plt.tight_layout(); plt.savefig('static/eda1_age_box.png'); plt.show()"
 ])
 
 eda1_box_sal = code('c7b', [
-    'fig, ax = plt.subplots(figsize=(6, 5))\n',
-    "sns.boxplot(y=df['EstimatedSalary'].dropna(), ax=ax, color='#FAD7A0',\n",
-    "            medianprops=dict(color='red', linewidth=2),\n",
-    "            whiskerprops=dict(linewidth=1.5),\n",
-    "            capprops=dict(linewidth=2),\n",
-    "            flierprops=dict(marker='o', color='tomato', markersize=4, alpha=0.6))\n",
-    "q1, med, q3 = df['EstimatedSalary'].dropna().quantile([0.25, 0.5, 0.75])\n",
-    "mean_val = df['EstimatedSalary'].dropna().mean()\n",
-    "ax.axhline(mean_val, color='blue', linestyle='--', linewidth=1.2, label=f'Mean={mean_val:,.0f}')\n",
-    "for val, lbl in [(q1,'Q1'),(med,'Median'),(q3,'Q3')]:\n",
-    "    ax.text(0.52, val, f'{lbl}={val:,.0f}', va='center', fontsize=9, color='darkgreen')\n",
-    "ax.legend(fontsize=9)\n",
-    "ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: f'{int(x):,}'))\n",
-    "ax.set_title('Raw Salary Boxplot')\n",
-    "ax.yaxis.grid(True, linestyle='--', alpha=0.7)\n",
+    'plt.figure(figsize=(6, 4))\n',
+    "sns.boxplot(y=df['EstimatedSalary'].dropna(), color='lightyellow',\n",
+    "            meanprops=dict(marker='D', markerfacecolor='red', markersize=6),\n",
+    "            showmeans=True)\n",
+    "plt.title('Raw Salary Boxplot')\n",
+    'plt.gca().yaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: f\'{int(x):,}\'))\n',
     "plt.tight_layout(); plt.savefig('static/eda1_salary_box.png'); plt.show()"
 ])
 
@@ -408,39 +389,21 @@ eda2_dist_sal = code('e3b', [
 ])
 
 eda2_box_age = code('e4a', [
-    'fig, ax = plt.subplots(figsize=(6, 5))\n',
-    "sns.boxplot(y=df['Age'], ax=ax, color='#AED6F1',\n",
-    "            medianprops=dict(color='red', linewidth=2),\n",
-    "            whiskerprops=dict(linewidth=1.5),\n",
-    "            capprops=dict(linewidth=2),\n",
-    "            flierprops=dict(marker='o', color='tomato', markersize=4, alpha=0.6))\n",
-    "q1, med, q3 = df['Age'].quantile([0.25, 0.5, 0.75])\n",
-    "mean_val = df['Age'].mean()\n",
-    "ax.axhline(mean_val, color='blue', linestyle='--', linewidth=1.2, label=f'Mean={mean_val:.1f}')\n",
-    "for val, lbl in [(q1,'Q1'),(med,'Median'),(q3,'Q3')]:\n",
-    "    ax.text(0.52, val, f'{lbl}={val:.1f}', va='center', fontsize=9, color='darkgreen')\n",
-    "ax.legend(fontsize=9)\n",
-    "ax.set_title('Age Boxplot (Clean)')\n",
-    "ax.yaxis.grid(True, linestyle='--', alpha=0.7)\n",
+    'plt.figure(figsize=(6, 4))\n',
+    "sns.boxplot(y=df['Age'], color='lightblue',\n",
+    "            meanprops=dict(marker='D', markerfacecolor='red', markersize=6),\n",
+    "            showmeans=True)\n",
+    "plt.title('Age Boxplot (Clean)')\n",
     "plt.tight_layout(); plt.savefig('static/eda2_age_box.png'); plt.show()"
 ])
 
 eda2_box_sal = code('e4b', [
-    'fig, ax = plt.subplots(figsize=(6, 5))\n',
-    "sns.boxplot(y=df['EstimatedSalary'], ax=ax, color='#FAD7A0',\n",
-    "            medianprops=dict(color='red', linewidth=2),\n",
-    "            whiskerprops=dict(linewidth=1.5),\n",
-    "            capprops=dict(linewidth=2),\n",
-    "            flierprops=dict(marker='o', color='tomato', markersize=4, alpha=0.6))\n",
-    "q1, med, q3 = df['EstimatedSalary'].quantile([0.25, 0.5, 0.75])\n",
-    "mean_val = df['EstimatedSalary'].mean()\n",
-    "ax.axhline(mean_val, color='blue', linestyle='--', linewidth=1.2, label=f'Mean={mean_val:,.0f}')\n",
-    "for val, lbl in [(q1,'Q1'),(med,'Median'),(q3,'Q3')]:\n",
-    "    ax.text(0.52, val, f'{lbl}={val:,.0f}', va='center', fontsize=9, color='darkgreen')\n",
-    "ax.legend(fontsize=9)\n",
-    "ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: f'{int(x):,}'))\n",
-    "ax.set_title('Salary Boxplot (Clean)')\n",
-    "ax.yaxis.grid(True, linestyle='--', alpha=0.7)\n",
+    'plt.figure(figsize=(6, 4))\n',
+    "sns.boxplot(y=df['EstimatedSalary'], color='lightyellow',\n",
+    "            meanprops=dict(marker='D', markerfacecolor='red', markersize=6),\n",
+    "            showmeans=True)\n",
+    "plt.title('Salary Boxplot (Clean)')\n",
+    'plt.gca().yaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: f\'{int(x):,}\'))\n',
     "plt.tight_layout(); plt.savefig('static/eda2_salary_box.png'); plt.show()"
 ])
 
@@ -456,29 +419,19 @@ eda2_corr = code('e5', [
 ])
 
 eda2_vs_age = code('e6a', [
-    'fig, ax = plt.subplots(figsize=(6, 5))\n',
-    "sns.boxplot(x='Purchased', y='Age', data=df, ax=ax,\n",
-    "            hue='Purchased', palette={0:'#AED6F1', 1:'#A9DFBF'}, legend=False,\n",
-    "            medianprops=dict(color='red', linewidth=2),\n",
-    "            flierprops=dict(marker='o', color='tomato', markersize=4, alpha=0.6))\n",
-    "ax.set_xticks([0, 1])\n",
-    "ax.set_xticklabels(['Not Purchased (0)', 'Purchased (1)'])\n",
-    "ax.set_title('Age vs Purchased')\n",
-    "ax.yaxis.grid(True, linestyle='--', alpha=0.7)\n",
+    'plt.figure(figsize=(6, 4))\n',
+    "sns.boxplot(x='Purchased', y='Age', data=df, hue='Purchased', palette='Set2', legend=False,\n",
+    "            meanprops=dict(marker='D', markerfacecolor='red', markersize=6), showmeans=True)\n",
+    "plt.title('Age vs Purchased')\n",
     "plt.tight_layout(); plt.savefig('static/eda2_age_vs_target.png'); plt.show()"
 ])
 
 eda2_vs_sal = code('e6b', [
-    'fig, ax = plt.subplots(figsize=(6, 5))\n',
-    "sns.boxplot(x='Purchased', y='EstimatedSalary', data=df, ax=ax,\n",
-    "            hue='Purchased', palette={0:'#FAD7A0', 1:'#D7BDE2'}, legend=False,\n",
-    "            medianprops=dict(color='red', linewidth=2),\n",
-    "            flierprops=dict(marker='o', color='tomato', markersize=4, alpha=0.6))\n",
-    "ax.set_xticks([0, 1])\n",
-    "ax.set_xticklabels(['Not Purchased (0)', 'Purchased (1)'])\n",
-    "ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: f'{int(x):,}'))\n",
-    "ax.set_title('Salary vs Purchased')\n",
-    "ax.yaxis.grid(True, linestyle='--', alpha=0.7)\n",
+    'plt.figure(figsize=(6, 4))\n',
+    "sns.boxplot(x='Purchased', y='EstimatedSalary', data=df, hue='Purchased', palette='Set3', legend=False,\n",
+    "            meanprops=dict(marker='D', markerfacecolor='red', markersize=6), showmeans=True)\n",
+    "plt.title('Salary vs Purchased')\n",
+    'plt.gca().yaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: f\'{int(x):,}\'))\n',
     "plt.tight_layout(); plt.savefig('static/eda2_salary_vs_target.png'); plt.show()"
 ])
 
@@ -537,8 +490,6 @@ model_md = md('f1', [
 ])
 
 eval_fn = code('f2', [
-    'from sklearn.metrics import roc_auc_score\n',
-    '\n',
     'def tune_and_evaluate(name, estimator, param_grid, X_tr, y_tr, X_te, y_te):\n',
     '    grid = GridSearchCV(estimator, param_grid, cv=5, scoring="accuracy", n_jobs=-1)\n',
     '    grid.fit(X_tr, y_tr)\n',
@@ -679,20 +630,58 @@ compare_auc = code('f10c', [
 ])
 
 # ─────────────────────────────────────────────────────────────────────────────
-# STEP 7 — SAVE MODEL
+# STEP 7 — ENSEMBLE
 # ─────────────────────────────────────────────────────────────────────────────
-save_md   = md('g1', ['---\n', '## Step 7: Save Best Model & Scaler'])
-save_code = code('g2', [
-    'best_model = max(\n',
-    '    [(lr_model, lr_auc, "Logistic Regression"),\n',
-    '     (knn_model, knn_auc, "KNN"),\n',
-    '     (svm_model, svm_auc, "SVM")],\n',
-    '    key=lambda x: x[1]\n',
-    ')\n',
-    'print(f"Best model: {best_model[2]} (ROC-AUC={best_model[1]:.4f})")\n',
-    "joblib.dump(best_model[0], 'model.pkl')\n",
-    "joblib.dump(scaler, 'scaler.pkl')\n",
-    "print('Saved: model.pkl, scaler.pkl')"
+ensemble_md = md('g0', [
+    '---\n',
+    '## Step 7: Ensemble — Majority Vote\n',
+    '\n',
+    'Each of the 3 models casts a vote (0 or 1). The class that gets **2 or more votes wins**.\n',
+    'No extra library needed — just plain Python.'
+])
+
+ensemble_code = code('g1', [
+    'import numpy as np\n',
+    '\n',
+    'lr_preds  = lr_model.predict(X_test_scaled)\n',
+    'knn_preds = knn_model.predict(X_test_scaled)\n',
+    'svm_preds = svm_model.predict(X_test_scaled)\n',
+    '\n',
+    '# Majority vote: sum predictions per row; >= 2 means majority says "Purchase"\n',
+    'votes = lr_preds + knn_preds + svm_preds\n',
+    'ensemble_preds = (votes >= 2).astype(int)\n',
+    '\n',
+    'ens_acc = accuracy_score(y_test, ensemble_preds)\n',
+    'ens_auc = roc_auc_score(y_test, ensemble_preds)\n',
+    'print(f"Ensemble Accuracy : {ens_acc:.4f}")\n',
+    'print(f"Ensemble ROC-AUC  : {ens_auc:.4f}")\n',
+    'print("\\nConfusion Matrix:")\n',
+    'print(confusion_matrix(y_test, ensemble_preds))\n',
+    'print("\\nClassification Report:")\n',
+    'print(classification_report(y_test, ensemble_preds))'
+])
+
+ensemble_compare = code('g2', [
+    "final_df = pd.DataFrame({\n",
+    "    'Model': ['Logistic Regression', 'KNN', 'SVM', 'Ensemble (Majority Vote)'],\n",
+    "    'Accuracy': [lr_acc, knn_acc, svm_acc, ens_acc],\n",
+    "    'ROC-AUC':  [lr_auc, knn_auc, svm_auc, ens_auc]\n",
+    "})\n",
+    'final_df = final_df.sort_values("ROC-AUC", ascending=False).reset_index(drop=True)\n',
+    'print(final_df.to_string(index=False))'
+])
+
+# ─────────────────────────────────────────────────────────────────────────────
+# STEP 8 — SAVE MODEL
+# ─────────────────────────────────────────────────────────────────────────────
+save_md   = md('h1', ['---\n', '## Step 8: Save Models & Scaler'])
+save_code = code('h2', [
+    '# Save all 3 models — app.py will run majority vote at prediction time\n',
+    "joblib.dump(lr_model,  'model_lr.pkl')\n",
+    "joblib.dump(knn_model, 'model_knn.pkl')\n",
+    "joblib.dump(svm_model, 'model_svm.pkl')\n",
+    "joblib.dump(scaler,    'scaler.pkl')\n",
+    "print('Saved: model_lr.pkl, model_knn.pkl, model_svm.pkl, scaler.pkl')"
 ])
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -733,7 +722,9 @@ nb = {
         knn_md, knn_code,
         svm_md, svm_code,
         compare_md, compare_acc, compare_clf, compare_auc,
-        # Step 7 — Save
+        # Step 7 — Ensemble
+        ensemble_md, ensemble_code, ensemble_compare,
+        # Step 8 — Save
         save_md, save_code,
     ]
 }
