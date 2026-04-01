@@ -7,7 +7,7 @@ import joblib
 import numpy as np
 
 app = Flask(__name__)
-app.secret_key = 'sna_secret_key'
+app.secret_key = os.environ.get('SECRET_KEY', 'sna_secret_key_dev')
 
 # Load model and scaler once at startup
 model = joblib.load('model.pkl')
