@@ -5,6 +5,7 @@ Flask Web Application — Social Network Ads Purchase Predictor
 from flask import Flask, request, render_template, redirect, url_for, session
 import joblib
 import numpy as np
+import os
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', 'sna_secret_key_dev')
